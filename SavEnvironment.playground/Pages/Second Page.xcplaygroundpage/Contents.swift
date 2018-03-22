@@ -6,7 +6,7 @@ import PlaygroundSupport
 
 public class ViewController: UIViewController {
 
-    // Instantiate UIImage and UIImageView
+    // Instantiate UIImage and UIImageView of the background
     let upLeftImage = UIImage(named: "upLeft.png")
     let upImage = UIImage(named: "up.png")
     let upRightImage = UIImage(named: "upRight.png")
@@ -26,6 +26,10 @@ public class ViewController: UIViewController {
     var downLeftImageView = UIImageView()
     var downImageView = UIImageView()
     var downRightImageView = UIImageView()
+
+    // Instantiate UIImage and UIImageView of the car
+    let carImage = UIImage(named: "racing.png")
+    var carImageView = UIImageView()
 
     // In the following, I'll initialize the stacks needed to create correctly place the UIImageViews
     var firstRowStack = UIStackView()
@@ -56,7 +60,10 @@ public class ViewController: UIViewController {
         downImageView.image = downImage
         downRightImageView.image = downRightImage
 
-        // In the following, I'll create all arrays for each row that will compose my view and, for each UIStackView creating before, I'll assign the correct array as arrangedSubview
+        //Image of the card
+        carImageView.image = carImage
+
+        // In the following, I'll create all the arrays for each row that will compose my view and, for each UIStackView creating before, I'll assign the correct array as arrangedSubview
         let firstRowArray = [upLeftImageView, upImageView, upRightImageView]
         firstRowStack = UIStackView(arrangedSubviews: firstRowArray)
         let secondRowArray = [centerLeftImageView, centerImageView, centerRightImageView]
@@ -76,6 +83,10 @@ public class ViewController: UIViewController {
         view.addSubview(firstRowStack)
         view.addSubview(secondRowStack)
         view.addSubview(thirdRowStack)
+
+        // Adding the carImageView as subview and sizing it
+        carImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(carImageView)
     }
 
     override public func viewDidLayoutSubviews() {
@@ -89,6 +100,7 @@ public class ViewController: UIViewController {
         firstRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
         firstRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         firstRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        firstRowStack.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
         //Second UIStackView
         secondRowStack.axis = .horizontal
@@ -107,35 +119,19 @@ public class ViewController: UIViewController {
         thirdRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         thirdRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         thirdRowStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        thirdRowStack.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
+
+
+        // Correctly sizing and positioning the UIImageView of the car (EH MAGARI)
+
+        carImageView.frame.size = CGSize(width: downRightImageView.frame.size.width / 2, height: downRightImageView.frame.size.height / 2)
+
+        carImageView.frame.origin.x = downRightImageView.frame.midX - carImageView.frame.width / 2
+        carImageView.frame.origin.y = downRightImageView.frame.midY - carImageView.frame.width / 2
     }
 }
 
 //ARRIVATO QUI
-//
-//let carImage = UIImageView(image: car)
-//carImage.frame.size = CGSize(width: 90, height: 90)
-//carImage.frame.origin.x = backgroundImageUpLeft.frame.midX - carImage.frame.width / 2
-//carImage.frame.origin.y = backgroundImageUpLeft.frame.midY - carImage.frame.height / 2
-//
-//backgroundImageUp.image = upImage
-//backgroundImageUp.contentMode = .scaleAspectFit
-//backgroundImageUpLeft.image = upLeftImage
-//backgroundImageUpLeft.contentMode = .scaleAspectFit
-//
-//view.insertSubview(backgroundImageUpLeft, at: 0)
-//view.insertSubview(backgroundImageUp, at: 0)
-//view.addSubview(carImage)
-//
-////backgroundImageUpLeft.translatesAutoresizingMaskIntoConstraints = false
-//backgroundImageUp.translatesAutoresizingMaskIntoConstraints = false
-//
-//backgroundImageUp.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//backgroundImageUp.leadingAnchor.constraint(equalTo: backgroundImageUpLeft.trailingAnchor).isActive = true
-//backgroundImageUp.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//
-//
-////SE NON FUNZIONANO LE CONSTRAINTS IN NESSUN MODO
-////backgroundImageUp.frame = CGRect(x: backgroundImageUpLeft.frame.maxX, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 3)
 //
 //func boostingAnimation() {
 //    UIImageView.animate(withDuration: 2, animations: {
