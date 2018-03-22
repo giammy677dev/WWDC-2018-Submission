@@ -4,47 +4,113 @@ import Foundation
 import UIKit
 import PlaygroundSupport
 
-class ViewController: UIViewController {
+public class ViewController: UIViewController {
 
-    override func loadView() {
+    // Instantiate UIImage and UIImageView
+    let upLeftImage = UIImage(named: "upLeft.png")
+    let upImage = UIImage(named: "up.png")
+    let upRightImage = UIImage(named: "upRight.png")
+    let centerLeftImage = UIImage(named: "centerLeft.png")
+    let centerImage = UIImage(named: "center.png")
+    let centerRightImage = UIImage(named: "centerRight.png")
+    let downLeftImage = UIImage(named: "downLeft.png")
+    let downImage = UIImage(named: "down.png")
+    let downRightImage = UIImage(named: "downRight.png")
+
+    var upLeftImageView = UIImageView()
+    var upImageView = UIImageView()
+    var upRightImageView = UIImageView()
+    var centerLeftImageView = UIImageView()
+    var centerImageView = UIImageView()
+    var centerRightImageView = UIImageView()
+    var downLeftImageView = UIImageView()
+    var downImageView = UIImageView()
+    var downRightImageView = UIImageView()
+
+    // In the following, I'll initialize the stacks needed to create correctly place the UIImageViews
+    var firstRowStack = UIStackView()
+    var secondRowStack = UIStackView()
+    var thirdRowStack = UIStackView()
+
+    override public func loadView() {
+
+        //Creating the view
         let view = UIView()
         view.backgroundColor = .white
         self.view = view
-        let image = UIImage(named: "racing.png")
-        let imageView = UIImageView(image: image)
 
-        view.addSubview(imageView)
+        // The following is needed to assign the right image to each ImageView
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        //Images of the first row
+        upLeftImageView.image = upLeftImage
+        upImageView.image = upImage
+        upRightImageView.image = upRightImage
 
-        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        //Images of the second row
+        centerLeftImageView.image = centerLeftImage
+        centerImageView.image = centerImage
+        centerRightImageView.image = centerRightImage
+
+        //Images of the third row
+        downLeftImageView.image = downLeftImage
+        downImageView.image = downImage
+        downRightImageView.image = downRightImage
+
+        // In the following, I'll create all arrays for each row that will compose my view and, for each UIStackView creating before, I'll assign the correct array as arrangedSubview
+        let firstRowArray = [upLeftImageView, upImageView, upRightImageView]
+        firstRowStack = UIStackView(arrangedSubviews: firstRowArray)
+        let secondRowArray = [centerLeftImageView, centerImageView, centerRightImageView]
+        secondRowStack = UIStackView(arrangedSubviews: secondRowArray)
+        let thirdRowArray = [downLeftImageView, downImageView, downRightImageView]
+        thirdRowStack = UIStackView(arrangedSubviews: thirdRowArray)
+
+        // Correctly sizing all the UIStackViews
+        firstRowStack.translatesAutoresizingMaskIntoConstraints = false
+        firstRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        secondRowStack.translatesAutoresizingMaskIntoConstraints = false
+        secondRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        thirdRowStack.translatesAutoresizingMaskIntoConstraints = false
+        thirdRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+
+        // Adding all the UIStackViews to the view as subviews
+        view.addSubview(firstRowStack)
+        view.addSubview(secondRowStack)
+        view.addSubview(thirdRowStack)
     }
 
+    override public func viewDidLayoutSubviews() {
 
+        // In the following lines, I'll set all the needed constraints of each UIStackViews
+
+        //First UIStackView
+        firstRowStack.axis = .horizontal
+        firstRowStack.distribution = .fillEqually
+        firstRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        firstRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
+        firstRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        firstRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+
+        //Second UIStackView
+        secondRowStack.axis = .horizontal
+        secondRowStack.distribution = .fillEqually
+        secondRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        secondRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
+        secondRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        secondRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        secondRowStack.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+
+        //Third UIStackView
+        thirdRowStack.axis = .horizontal
+        thirdRowStack.distribution = .fillEqually
+        thirdRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        thirdRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
+        thirdRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        thirdRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        thirdRowStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
 }
 
-//let frameRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//let view = UIView(frame: frameRect)
-//let backgroundImageRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 3)
-//let car = UIImage(named: "racing.png")
-//let upImage = UIImage(named: "tree.jpg")
-//let upLeftImage = UIImage(named: "Street.jpeg")
-//
-//class backgroundImage: UIImageView {
-//    var dimension: CGRect = backgroundImageRect
-//
-//    //SE SERVE POSSO DIVIDERMELE IN PIù PROPRIETà
-//    //let width = UIScreen.main.bounds.width / 3
-//
-//    convenience init() {
-//        self.init(frame: backgroundImageRect)
-//    }
-//}
-//
-//
-//let backgroundImageUp = backgroundImage()
-//let backgroundImageUpLeft = backgroundImage()
+//ARRIVATO QUI
 //
 //let carImage = UIImageView(image: car)
 //carImage.frame.size = CGSize(width: 90, height: 90)
