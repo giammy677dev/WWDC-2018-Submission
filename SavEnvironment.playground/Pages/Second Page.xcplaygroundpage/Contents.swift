@@ -60,8 +60,8 @@ public class ViewController: UIViewController {
         downImageView.image = downImage
         downRightImageView.image = downRightImage
 
-        //Image of the card
-        carImageView.image = carImage
+        // Image of the car
+        carImageView = UIImageView(image: carImage)
 
         // In the following, I'll create all the arrays for each row that will compose my view and, for each UIStackView creating before, I'll assign the correct array as arrangedSubview
         let firstRowArray = [upLeftImageView, upImageView, upRightImageView]
@@ -70,28 +70,22 @@ public class ViewController: UIViewController {
         secondRowStack = UIStackView(arrangedSubviews: secondRowArray)
         let thirdRowArray = [downLeftImageView, downImageView, downRightImageView]
         thirdRowStack = UIStackView(arrangedSubviews: thirdRowArray)
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+
+        view.addSubview(firstRowStack)
+        view.addSubview(secondRowStack)
+        view.addSubview(thirdRowStack)
 
         // Correctly sizing all the UIStackViews
         firstRowStack.translatesAutoresizingMaskIntoConstraints = false
         firstRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
         secondRowStack.translatesAutoresizingMaskIntoConstraints = false
-        secondRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        secondRowStack.frame = CGRect(x: 0, y: firstRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
         thirdRowStack.translatesAutoresizingMaskIntoConstraints = false
-        thirdRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
-
-        // Adding all the UIStackViews to the view as subviews
-        view.addSubview(firstRowStack)
-        view.addSubview(secondRowStack)
-        view.addSubview(thirdRowStack)
-
-        // Adding the carImageView as subview and sizing it
-        carImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(carImageView)
-    }
-
-    override public func viewDidLayoutSubviews() {
-
-        // In the following lines, I'll set all the needed constraints of each UIStackViews
+        thirdRowStack.frame = CGRect(x: 0, y: secondRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
 
         //First UIStackView
         firstRowStack.axis = .horizontal
@@ -109,7 +103,7 @@ public class ViewController: UIViewController {
         secondRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
         secondRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         secondRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        secondRowStack.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        //secondRowStack.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
 
         //Third UIStackView
         thirdRowStack.axis = .horizontal
@@ -121,13 +115,10 @@ public class ViewController: UIViewController {
         thirdRowStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         thirdRowStack.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
 
-
-        // Correctly sizing and positioning the UIImageView of the car (EH MAGARI)
-
-        carImageView.frame.size = CGSize(width: downRightImageView.frame.size.width / 2, height: downRightImageView.frame.size.height / 2)
-
-        carImageView.frame.origin.x = downRightImageView.frame.midX - carImageView.frame.width / 2
-        carImageView.frame.origin.y = downRightImageView.frame.midY - carImageView.frame.width / 2
+        // Correctly positioning the carImageView
+        carImageView.frame.origin.x = downRightImageView.frame.midX //Setting the initial x of the carImageView
+        carImageView.frame.origin.y = downRightImageView.frame.midY + carImageView.frame.height / 2 //Setting the initial y of the carImageView
+        downRightImageView.addSubview(carImageView)
     }
 }
 
