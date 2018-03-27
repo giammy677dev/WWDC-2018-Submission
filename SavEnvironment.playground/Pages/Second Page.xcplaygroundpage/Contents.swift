@@ -1,76 +1,61 @@
 //: [Previous](@previous)
-//start hidden here
+
 import Foundation
 import UIKit
-import AVFoundation
 import PlaygroundSupport
+import CoreText
 
 public class ViewController: UIViewController {
+    // Instantiate UIImage and UIImageView of the background
+    let afghanistanGreyImage = UIImage(named: "Afghanistan grey.png")
+    let centralAfricanRepublicGreyImage = UIImage(named: "Central African Republic grey.png")
+    let iranGreyImage = UIImage(named: "Iran grey.png")
+    let syriaGreyImage = UIImage(named: "Syria grey.png")
 
-    // Defining UIImage and UIImageView of the background
-    let upLeftImage = UIImage(named: "upLeft.png")
-    let upImage = UIImage(named: "up.png")
-    let upRightImage = UIImage(named: "upRight.png")
-    let centerLeftImage = UIImage(named: "centerLeft.png")
-    let centerImage = UIImage(named: "center.png")
-    let centerRightImage = UIImage(named: "centerRight.png")
-    let downLeftImage = UIImage(named: "downLeft.png")
-    let downImage = UIImage(named: "down.png")
-    let downRightImage = UIImage(named: "downRight.png")
-
-    var upLeftImageView = UIImageView()
-    var upImageView = UIImageView()
-    var upRightImageView = UIImageView()
-    var centerLeftImageView = UIImageView()
-    var centerImageView = UIImageView()
-    var centerRightImageView = UIImageView()
-    var downLeftImageView = UIImageView()
-    var downImageView = UIImageView()
-    var downRightImageView = UIImageView()
-
-    // Defining UIImage and UIImageView of the car
-    let carImage = UIImage(named: "racing.png")
-    var carImageView = UIImageView()
+    var afghanistanImageView = UIImageView()
+    var centralAfricanRepublicImageView = UIImageView()
+    var iranImageView = UIImageView()
+    var syriaImageView = UIImageView()
 
     // In the following, I'll initialize the stacks needed to place correctly the UIImageViews
     var firstRowStack = UIStackView()
     var secondRowStack = UIStackView()
-    var thirdRowStack = UIStackView()
 
-    override public func loadView() {
+    // Defining the textField
+    var statsTextField = UITextView()
+
+    // Defining the texts for the statsTextField
+    let afghanistanDefinition = "Afghan militias recruited thousands of child soldiers during the Afghan civil war over three decades. Many are still fighting now, for the Taliban. Some of those taken from Islamic religious schools are used as suicide bombers and gunmen.\n During the fighting between the army and ISIS, over 3,500 civilians died. A third of them are children."
+    let centralAfricanRepublicDefinition = "Between 2012 and 2015 as many as 10,000 children were used by armed groups in the nationwide armed conflict and as of 2016 children were still being used. Some are as young as eight. The recruitment of children for military purposes increased by approximately 50% during last year."
+    let iranDefinition = "The state conscripts for the regular army at age 19 while accepting volunteers at age 16. During the Iran-Iraq War, the total number of all Iranian casualties is estimated by independent sources to be about 200,000–600,000. Half of them were civilians and about 3% were under the age of 14. Some critics wrote that children were sent to the front as waves of human shields."
+    let syriaDefinition = "Despite a law that prohibits the use of child soldiers, in Syria there are no age verification procedures so, still today, there have been allegations of children being recruited to fight for the Syrian government against rebel forces in support and combatant roles.\nDuring last year, over 10.000 civilians died during war."
+
+    let cfURL = Bundle.main.url(forResource: "Arabolic", withExtension: "ttf")
+    var font: UIFont?
+
+    public override func loadView() {
         super.loadView()
 
         //Creating the view
         let view = UIView()
+        view.backgroundColor = UIColor(hex: 0x737779)
         self.view = view
 
         // The following is needed to assign the right image to each ImageView
 
         //Images of the first row
-        upLeftImageView.image = upLeftImage
-        upImageView.image = upImage
-        upRightImageView.image = upRightImage
+        afghanistanImageView.image = afghanistanGreyImage
+        centralAfricanRepublicImageView.image = centralAfricanRepublicGreyImage
 
         //Images of the second row
-        centerLeftImageView.image = centerLeftImage
-        centerImageView.image = centerImage
-        centerRightImageView.image = centerRightImage
-
-        //Images of the third row
-        downLeftImageView.image = downLeftImage
-        downImageView.image = downImage
-        downRightImageView.image = downRightImage
-
-        // Image of the car
-        carImageView = UIImageView(image: carImage)
+        iranImageView.image = iranGreyImage
+        syriaImageView.image = syriaGreyImage
 
         // In the following, I'll create all the arrays for each row that will compose my view and, for each UIStackView creating before, I'll assign the correct array as arrangedSubview
-        let firstRowArray = [upLeftImageView, upImageView, upRightImageView]
+        let firstRowArray = [afghanistanImageView, centralAfricanRepublicImageView]
         firstRowStack = UIStackView(arrangedSubviews: firstRowArray)
-        let secondRowArray = [centerLeftImageView, centerImageView, centerRightImageView]
+        let secondRowArray = [iranImageView, syriaImageView]
         secondRowStack = UIStackView(arrangedSubviews: secondRowArray)
-        let thirdRowArray = [downLeftImageView, downImageView, downRightImageView]
-        thirdRowStack = UIStackView(arrangedSubviews: thirdRowArray)
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -78,15 +63,12 @@ public class ViewController: UIViewController {
 
         view.addSubview(firstRowStack)
         view.addSubview(secondRowStack)
-        view.addSubview(thirdRowStack)
 
         // Correctly sizing all the UIStackViews
         firstRowStack.translatesAutoresizingMaskIntoConstraints = false
         firstRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height / 3)
         secondRowStack.translatesAutoresizingMaskIntoConstraints = false
         secondRowStack.frame = CGRect(x: 0, y: firstRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width, height: view.frame.size.height / 3)
-        thirdRowStack.translatesAutoresizingMaskIntoConstraints = false
-        thirdRowStack.frame = CGRect(x: 0, y: secondRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width, height: view.frame.size.height / 3)
 
         //First UIStackView
         firstRowStack.axis = .horizontal
@@ -106,92 +88,66 @@ public class ViewController: UIViewController {
         secondRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         secondRowStack.topAnchor.constraint(equalTo: firstRowStack.bottomAnchor).isActive = true
 
-        //Third UIStackView
-        thirdRowStack.axis = .horizontal
-        thirdRowStack.distribution = .fillEqually
-        thirdRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
-        thirdRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
-        thirdRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        thirdRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        thirdRowStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        thirdRowStack.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
+        // Instantiating the statsTextField
+        statsTextField.frame = CGRect(x: 0.0, y: secondRowStack.frame.height * 2, width: self.view.frame.width, height: self.view.frame.height / 3)
 
-        // Correctly positioning the carImageView
-        carImageView.frame = CGRect(x: thirdRowStack.frame.width - thirdRowStack.frame.width / 6 - carImageView.frame.width / 2, y: thirdRowStack.frame.height / 3, width: self.carImageView.frame.width, height: self.carImageView.frame.height)
-        thirdRowStack.addSubview(carImageView)
+        // Property of the statsTextField
+        statsTextField.isEditable = false
+        statsTextField.isSelectable = false
+        statsTextField.isScrollEnabled = false
+        view.addSubview(statsTextField)
 
-        //Sequence of the animations
-        UIView.animateKeyframes(withDuration: 15, delay: 1, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25, animations: {
-                //end hidden here
-                //#-editable-code
-                self.moveUp()
-                //#-end-editable-code
-                //#-hidden-code
-                //self.view.alpha = 0.7
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25, animations: {
-                self.turnLeft()
-                //self.view.alpha = 0.3
-                //#-end-hidden-code
-                //#-editable-code
-                self.moveLeft()
-                //#-end-editable-code
-                //#-hidden-code
-            })
-            UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.25, animations: {
-                self.turnUp()
-                //#-end-hidden-code
-                //#-editable-code
-                self.moveUp()
-                //#-end-editable-code
-                //#-hidden-code
-                //self.view.alpha = 0
-            })
-        }, completion: nil)
+        // Putting the constraints to the statsTextField
+
+        statsTextField.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
+        statsTextField.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
+        statsTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        statsTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        statsTextField.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
+        statsTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+
+        CTFontManagerRegisterFontsForURL(cfURL! as CFURL, CTFontManagerScope.process, nil)
+        font = UIFont(name: "Arabolical", size:  14.0)
+
+        statsTextField.textColor = .white
+        statsTextField.backgroundColor = .black
+        statsTextField.font = font
     }
 
-    func moveLeft() {
-        self.carImageView.center.x = self.view.frame.width / 3 - self.carImageView.frame.width / 2
+    public override func viewDidLoad() {
+        seeStats(nation: "Put your nation here")
     }
 
-    func moveUp() {
-        self.carImageView.center.y -= self.view.frame.height / 3 + self.carImageView.frame.height / 2
-    }
-
-    func turnLeft() {
-        self.carImageView.transform = self.carImageView.transform.rotated(by: -1.5)
-    }
-
-    func turnUp() {
-        self.carImageView.transform = self.carImageView.transform.rotated(by: 1.5)
-    }
-
-    var player: AVAudioPlayer?
-
-    func playSound() {
-        guard let url = Bundle.main.url(forResource: "Gunshot sound", withExtension: "wav") else { return }
-
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-
-            guard let player = player else { return }
-
-            player.play()
-
-        } catch let error {
-            print(error.localizedDescription)
+    func seeStats(nation: String) {
+        if nation == "Central African Republic" {
+            statsTextField.text = centralAfricanRepublicDefinition
+            centralAfricanRepublicImageView.image = UIImage(named: "Central African Republic.png")
+        } else if nation == "Afghanistan" {
+            statsTextField.text = afghanistanDefinition
+            afghanistanImageView.image = UIImage(named: "Afghanistan.png")
+        } else if nation == "Iran" {
+            statsTextField.text = iranDefinition
+            iranImageView.image = UIImage(named: "Iran.png")
+        } else if nation == "Syria" {
+            statsTextField.text = syriaDefinition
+            syriaImageView.image = UIImage(named: "Syria.png")
+        } else {
+            statsTextField.text = "ciao"
         }
+    }
+}
+
+extension UIColor {
+    convenience init(hex: UInt) {
+        let components = (
+            r: CGFloat((hex >> 16) & 0xff) / 255,
+            g: CGFloat((hex >> 08) & 0xff) / 255,
+            b: CGFloat((hex >> 00) & 0xff) / 255
+        )
+        self.init(red: components.r, green: components.g, blue: components.b, alpha: 1)
     }
 }
 
 let viewController = ViewController()
 PlaygroundPage.current.needsIndefiniteExecution = true
 PlaygroundPage.current.liveView = viewController
-
-//#-end-hidden-code
-
-//: [Next](@next)
