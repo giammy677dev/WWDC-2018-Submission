@@ -1,12 +1,13 @@
 //: [Previous](@previous)
-
+//start hidden here
 import Foundation
 import UIKit
+import AVFoundation
 import PlaygroundSupport
 
 public class ViewController: UIViewController {
 
-    // Instantiate UIImage and UIImageView of the background
+    // Defining UIImage and UIImageView of the background
     let upLeftImage = UIImage(named: "upLeft.png")
     let upImage = UIImage(named: "up.png")
     let upRightImage = UIImage(named: "upRight.png")
@@ -27,20 +28,20 @@ public class ViewController: UIViewController {
     var downImageView = UIImageView()
     var downRightImageView = UIImageView()
 
-    // Instantiate UIImage and UIImageView of the car
+    // Defining UIImage and UIImageView of the car
     let carImage = UIImage(named: "racing.png")
     var carImageView = UIImageView()
 
-    // In the following, I'll initialize the stacks needed to create correctly place the UIImageViews
+    // In the following, I'll initialize the stacks needed to place correctly the UIImageViews
     var firstRowStack = UIStackView()
     var secondRowStack = UIStackView()
     var thirdRowStack = UIStackView()
 
     override public func loadView() {
+        super.loadView()
 
         //Creating the view
         let view = UIView()
-        view.backgroundColor = .white
         self.view = view
 
         // The following is needed to assign the right image to each ImageView
@@ -81,16 +82,16 @@ public class ViewController: UIViewController {
 
         // Correctly sizing all the UIStackViews
         firstRowStack.translatesAutoresizingMaskIntoConstraints = false
-        firstRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        firstRowStack.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height / 3)
         secondRowStack.translatesAutoresizingMaskIntoConstraints = false
-        secondRowStack.frame = CGRect(x: 0, y: firstRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        secondRowStack.frame = CGRect(x: 0, y: firstRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width, height: view.frame.size.height / 3)
         thirdRowStack.translatesAutoresizingMaskIntoConstraints = false
-        thirdRowStack.frame = CGRect(x: 0, y: secondRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width / 3, height: view.frame.size.height / 3)
+        thirdRowStack.frame = CGRect(x: 0, y: secondRowStack.frame.maxY + view.frame.size.height / 3, width: view.frame.size.width, height: view.frame.size.height / 3)
 
         //First UIStackView
         firstRowStack.axis = .horizontal
         firstRowStack.distribution = .fillEqually
-        firstRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        firstRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
         firstRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
         firstRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         firstRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -99,16 +100,16 @@ public class ViewController: UIViewController {
         //Second UIStackView
         secondRowStack.axis = .horizontal
         secondRowStack.distribution = .fillEqually
-        secondRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        secondRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
         secondRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
         secondRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         secondRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        //secondRowStack.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        secondRowStack.topAnchor.constraint(equalTo: firstRowStack.bottomAnchor).isActive = true
 
         //Third UIStackView
         thirdRowStack.axis = .horizontal
         thirdRowStack.distribution = .fillEqually
-        thirdRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width / 3).isActive = true
+        thirdRowStack.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
         thirdRowStack.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
         thirdRowStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         thirdRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
@@ -116,95 +117,81 @@ public class ViewController: UIViewController {
         thirdRowStack.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
 
         // Correctly positioning the carImageView
-        carImageView.frame.origin.x = downRightImageView.frame.midX //Setting the initial x of the carImageView
-        carImageView.frame.origin.y = downRightImageView.frame.midY + carImageView.frame.height / 2 //Setting the initial y of the carImageView
-        downRightImageView.addSubview(carImageView)
+        carImageView.frame = CGRect(x: thirdRowStack.frame.width - thirdRowStack.frame.width / 6 - carImageView.frame.width / 2, y: thirdRowStack.frame.height / 3, width: self.carImageView.frame.width, height: self.carImageView.frame.height)
+        thirdRowStack.addSubview(carImageView)
+
+        //Sequence of the animations
+        UIView.animateKeyframes(withDuration: 15, delay: 1, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25, animations: {
+                //end hidden here
+                //#-editable-code
+                self.moveUp()
+                //#-end-editable-code
+                //#-hidden-code
+                //self.view.alpha = 0.7
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25, animations: {
+                self.turnLeft()
+                //self.view.alpha = 0.3
+                //#-end-hidden-code
+                //#-editable-code
+                self.moveLeft()
+                //#-end-editable-code
+                //#-hidden-code
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.25, animations: {
+                self.turnUp()
+                //#-end-hidden-code
+                //#-editable-code
+                self.moveUp()
+                //#-end-editable-code
+                //#-hidden-code
+                //self.view.alpha = 0
+            })
+        }, completion: nil)
+    }
+
+    func moveLeft() {
+        self.carImageView.center.x = self.view.frame.width / 3 - self.carImageView.frame.width / 2
+    }
+
+    func moveUp() {
+        self.carImageView.center.y -= self.view.frame.height / 3 + self.carImageView.frame.height / 2
+    }
+
+    func turnLeft() {
+        self.carImageView.transform = self.carImageView.transform.rotated(by: -1.5)
+    }
+
+    func turnUp() {
+        self.carImageView.transform = self.carImageView.transform.rotated(by: 1.5)
+    }
+
+    var player: AVAudioPlayer?
+
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "Gunshot sound", withExtension: "wav") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+
+            guard let player = player else { return }
+
+            player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
-
-//ARRIVATO QUI
-//
-//func boostingAnimation() {
-//    UIImageView.animate(withDuration: 2, animations: {
-//        carImage.transform = carImage.transform.rotated(by: -0.3)
-//    }) { (true) in
-//        UIImageView.animate(withDuration: 2){
-//            carImage.transform = carImage.transform.rotated(by: 0.3)
-//        }
-//    }
-//}
-//
-//func moveRight() {
-//
-//    UIImageView.animate(withDuration: 2, animations: {
-//        carImage.frame.origin.x += backgroundImageRect.width
-//    }) { (true) in
-//boostingAnimation()
-//    }
-//}
-//
-//func moveLeft() {
-//
-//    UIImageView.animate(withDuration: 2, animations: {
-//        carImage.frame.origin.x -= backgroundImageRect.width
-//    }) { (true) in
-//        boostingAnimation()
-//    }
-//}
-//
-//func moveUp() {
-//
-//    UIImageView.animate(withDuration: 2, animations: {
-//        carImage.frame.origin.y -= backgroundImageRect.height
-//    }) { (true) in
-//        boostingAnimation()
-//    }
-//}
-//
-//func moveDown() {
-//
-//    UIImageView.animate(withDuration: 2, animations: {
-//        carImage.frame.origin.y += backgroundImageRect.height
-//    }) { (true) in
-//        boostingAnimation()
-//    }
-//}
-//
-//func provaAnimate(){
-//UIView.animate(withDuration: 1.0, animations: {
-//    // Animation 1
-//    boostingAnimation()
-////    var scaleTransform = CGAffineTransform(scaleX: 4, y: 4)
-////    star.transform = scaleTransform
-////    starEmpty.transform = scaleTransform
-////    star.alpha = 1
-//
-//}) { (_) in
-//
-//    // Animation 2
-//    UIView.animate(withDuration: 2.0, animations: { () -> Void in
-//        carImage.frame.origin.y += backgroundImageRect.height
-//    })
-////    { (_) in
-////
-////        // Clean up
-////        containerView.willRemoveSubview(starEmpty)
-////    }
-//}
-//}
-//
-////COME CAZZO LE SINCRONIZZO ORA?
-////provaAnimate()
-//moveDown()
-////moveUp()
-////moveLeft()
-//
-//
-
 
 let viewController = ViewController()
 PlaygroundPage.current.needsIndefiniteExecution = true
 PlaygroundPage.current.liveView = viewController
 
+//#-end-hidden-code
 
 //: [Next](@next)
