@@ -1,5 +1,6 @@
 import UIKit
 
+//Extension of UIColor to set color through hex
 extension UIColor {
     convenience public init(hex: UInt) {
         let components = (

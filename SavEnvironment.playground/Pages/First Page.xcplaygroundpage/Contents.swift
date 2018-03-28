@@ -1,4 +1,3 @@
-//start hidden here
 import Foundation
 import UIKit
 import AVFoundation
@@ -123,11 +122,9 @@ public class ViewController: UIViewController {
         //Sequence of the animations
         UIView.animateKeyframes(withDuration: 18, delay: 1, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25, animations: {
-                //end hidden here
                 //#-editable-code
                 self.moveUp()
                 //#-end-editable-code
-                //#-hidden-code
             })
             UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.25, animations: {
                 self.downRightImageView.alpha = 0
@@ -138,12 +135,9 @@ public class ViewController: UIViewController {
             UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.25, animations: {
                 self.turnLeft()
                 self.downLeftImageView.alpha = 0
-                //self.view.alpha = 0.3
-                //#-end-hidden-code
                 //#-editable-code
                 self.moveLeft()
                 //#-end-editable-code
-                //#-hidden-code
             })
             UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.25, animations: {
                 self.centerRightImageView.alpha = 0
@@ -155,11 +149,9 @@ public class ViewController: UIViewController {
             })
             UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.25, animations: {
                 self.turnUp()
-                //#-end-hidden-code
                 //#-editable-code
                 self.moveUp()
                 //#-end-editable-code
-                ////#-hidden-code
             })
             UIView.addKeyframe(withRelativeStartTime: 0.61, relativeDuration: 0.25, animations: {
                 self.centerLeftImageView.alpha = 0
@@ -169,9 +161,11 @@ public class ViewController: UIViewController {
             })
         }, completion: nil)
 
+        //Start a background sound
         self.playSound()
     }
 
+    //Functions for the movements of Nuh
     func moveRight() {
         self.nuhImageView.center.x = self.view.frame.width - self.view.frame.width / 3 + self.nuhImageView.frame.width / 2
     }
@@ -196,6 +190,7 @@ public class ViewController: UIViewController {
         self.nuhImageView.transform = self.nuhImageView.transform.rotated(by: 1)
     }
 
+    //Function for the sounds of background
     var player: AVAudioPlayer?
 
     func playSound() {
@@ -220,8 +215,6 @@ public class ViewController: UIViewController {
 let viewController = ViewController()
 PlaygroundPage.current.needsIndefiniteExecution = true
 PlaygroundPage.current.liveView = viewController
-
-//#-end-hidden-code
 
 //: [Next](@next)
 

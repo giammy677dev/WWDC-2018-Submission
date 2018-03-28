@@ -1,5 +1,5 @@
 //: [Previous](@previous)
-//#-hidden-code
+
 import Foundation
 import UIKit
 import PlaygroundSupport
@@ -22,15 +22,9 @@ public class ViewController: UIViewController {
     var secondRowStack = UIStackView()
 
     // Defining the textField
-    var statsTextField = UITextView()
+    var statsTextView = UITextView()
 
-    // Defining the texts for the statsTextField
-    let afghanistanDefinition = "Afghan militias recruited thousands of child soldiers during the Afghan civil war over three decades. Many are still fighting now, for the Taliban. Some of those taken from Islamic religious schools are used as suicide bombers and gunmen.\nDuring the fighting between the army and ISIS, over 3,500 civilians died. A third of them are children."
-    let centralAfricanRepublicDefinition = "Between 2012 and 2015 as many as 10,000 children were used by armed groups in the nationwide armed conflict and as of 2016 children were still being used. Some are as young as eight. The recruitment of children for military purposes increased by approximately 50% during last year."
-    let iranDefinition = "The state conscripts for the regular army at age 19 while accepting volunteers at age 16. During the Iran-Iraq War, the total number of all Iranian casualties is estimated by independent sources to be about 200,000–600,000. Half of them were civilians and about 3% were under the age of 14. Some critics wrote that children were sent to the front as waves of human shields."
-    let syriaDefinition = "Despite a law that prohibits the use of child soldiers, in Syria there are no age verification procedures so, still today, there have been allegations of children being recruited to fight for the Syrian government against rebel forces in support and combatant roles.\nDuring last year, over 10.000 civilians died during war."
-    let defaultDefinition = "Children are easy targets for military recruitment due to their greater susceptibility to influence compared to adults. Some children are recruited by force while others choose to join up, often to escape poverty or because they expect military life to offer a rite of passage to maturity.\nBoth children soldiers and civilians are often the main victims of the war, hunger and poverty..."
-
+    //Constant and variable fot the import of the Arabolic font
     let cfURL = Bundle.main.url(forResource: "Arabolic", withExtension: "ttf")
     var font: UIFont?
 
@@ -89,32 +83,30 @@ public class ViewController: UIViewController {
         secondRowStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         secondRowStack.topAnchor.constraint(equalTo: firstRowStack.bottomAnchor).isActive = true
 
-        // Instantiating the statsTextField
-        statsTextField.frame = CGRect(x: 0.0, y: secondRowStack.frame.height * 2, width: self.view.frame.width, height: self.view.frame.height / 3)
+        // Instantiating the statsTextView
+        statsTextView.frame = CGRect(x: 0.0, y: secondRowStack.frame.height * 2, width: self.view.frame.width, height: self.view.frame.height / 3)
 
-        // Property of the statsTextField
-        statsTextField.isEditable = false
-        statsTextField.isSelectable = false
-        statsTextField.isScrollEnabled = false
-        view.addSubview(statsTextField)
+        // Property of the statsTextView
+        statsTextView.isEditable = false
+        statsTextView.isSelectable = false
+        statsTextView.isScrollEnabled = false
+        view.addSubview(statsTextView)
 
-        // Putting the constraints to the statsTextField
+        // Putting the constraints to the statsTextView
+        statsTextView.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
+        statsTextView.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
+        statsTextView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        statsTextView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        statsTextView.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
+        statsTextView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
-        statsTextField.widthAnchor.constraint(equalToConstant: self.view.frame.size.width).isActive = true
-        statsTextField.heightAnchor.constraint(equalToConstant: self.view.frame.size.height / 3).isActive = true
-        statsTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        statsTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        statsTextField.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
-        statsTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-
+        // Setting the aspect of the statsTextView
         CTFontManagerRegisterFontsForURL(cfURL! as CFURL, CTFontManagerScope.process, nil)
-        //#-end-hidden-code
-
         font = UIFont(name: "Arabolical", size:  23.0)
-
-        statsTextField.textColor = .white
-        statsTextField.backgroundColor = .black
-        statsTextField.font = font
+        statsTextView.textColor = .white
+        statsTextView.backgroundColor = .black
+        statsTextView.font = font
+        statsTextView.sizeThatFits(self.view.frame.size)
     }
 
     public override func viewDidLoad() {
@@ -123,33 +115,23 @@ public class ViewController: UIViewController {
         //#-end-editable-code
     }
 
+    //Function to set the right definitions in the statsTextField
     func seeStats(nation: String) {
         if nation == "Central African Republic" {
-            statsTextField.text = centralAfricanRepublicDefinition
+            statsTextView.text = centralAfricanRepublicDefinition
             centralAfricanRepublicImageView.image = UIImage(named: "Central African Republic.png")
         } else if nation == "Afghanistan" {
-            statsTextField.text = afghanistanDefinition
+            statsTextView.text = afghanistanDefinition
             afghanistanImageView.image = UIImage(named: "Afghanistan.png")
         } else if nation == "Iran" {
-            statsTextField.text = iranDefinition
+            statsTextView.text = iranDefinition
             iranImageView.image = UIImage(named: "Iran.png")
         } else if nation == "Syria" {
-            statsTextField.text = syriaDefinition
+            statsTextView.text = syriaDefinition
             syriaImageView.image = UIImage(named: "Syria.png")
         } else {
-            statsTextField.text = defaultDefinition
+            statsTextView.text = defaultDefinition
         }
-    }
-}
-
-extension UIColor {
-    convenience init(hex: UInt) {
-        let components = (
-            r: CGFloat((hex >> 16) & 0xff) / 255,
-            g: CGFloat((hex >> 08) & 0xff) / 255,
-            b: CGFloat((hex >> 00) & 0xff) / 255
-        )
-        self.init(red: components.r, green: components.g, blue: components.b, alpha: 1)
     }
 }
 
