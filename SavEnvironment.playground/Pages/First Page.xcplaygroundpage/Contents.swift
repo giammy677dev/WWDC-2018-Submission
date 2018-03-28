@@ -36,19 +36,13 @@ public class ViewController: UIViewController {
     var secondRowStack = UIStackView()
     var thirdRowStack = UIStackView()
 
-    var myView = UIView()
-
     override public func loadView() {
         super.loadView()
 
-
-        myView = UIView()
-        myView.backgroundColor = UIColor(hex: 0x737779)
-        //Creating the view
-//        let view = UIView()
-//        view.backgroundColor = UIColor(hex: 0x737779)
-//        self.view = view
-
+        // Creating the view
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: 0x737779)
+        self.view = view
 
         // The following is needed to assign the right image to each ImageView
 
@@ -127,17 +121,23 @@ public class ViewController: UIViewController {
         thirdRowStack.addSubview(nuhImageView)
 
         //Sequence of the animations
-        UIView.animateKeyframes(withDuration: 15, delay: 1, animations: {
+        UIView.animateKeyframes(withDuration: 18, delay: 1, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25, animations: {
                 //end hidden here
                 //#-editable-code
                 self.moveUp()
                 //#-end-editable-code
                 //#-hidden-code
-                //self.view.alpha = 0.7
             })
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.25, animations: {
+                self.downRightImageView.alpha = 0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.25, animations: {
+                self.downImageView.alpha = 0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.25, animations: {
                 self.turnLeft()
+                self.downLeftImageView.alpha = 0
                 //self.view.alpha = 0.3
                 //#-end-hidden-code
                 //#-editable-code
@@ -145,24 +145,31 @@ public class ViewController: UIViewController {
                 //#-end-editable-code
                 //#-hidden-code
             })
-            UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.25, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.25, animations: {
+                self.centerRightImageView.alpha = 0
+                self.upRightImageView.alpha = 0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25, animations: {
+                self.centerImageView.alpha = 0
+                self.upImageView.alpha = 0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.25, animations: {
                 self.turnUp()
                 //#-end-hidden-code
                 //#-editable-code
                 self.moveUp()
                 //#-end-editable-code
                 ////#-hidden-code
-                self.view.alpha = 0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.61, relativeDuration: 0.25, animations: {
+                self.centerLeftImageView.alpha = 0
+                self.upLeftImageView.alpha = 0
+                self.nuhImageView.alpha = 0
+                self.view.backgroundColor = .black
             })
         }, completion: nil)
 
         self.playSound()
-    }
-
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateViewConstraints()
-        self.view = myView
     }
 
     func moveRight() {
@@ -207,17 +214,6 @@ public class ViewController: UIViewController {
         } catch let error {
             print(error.localizedDescription)
         }
-    }
-}
-
-extension UIColor {
-    convenience init(hex: UInt) {
-        let components = (
-            r: CGFloat((hex >> 16) & 0xff) / 255,
-            g: CGFloat((hex >> 08) & 0xff) / 255,
-            b: CGFloat((hex >> 00) & 0xff) / 255
-        )
-        self.init(red: components.r, green: components.g, blue: components.b, alpha: 1)
     }
 }
 
