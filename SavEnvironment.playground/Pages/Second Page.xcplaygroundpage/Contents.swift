@@ -1,5 +1,5 @@
 //: [Previous](@previous)
-
+//#-hidden-code
 import Foundation
 import UIKit
 import PlaygroundSupport
@@ -25,10 +25,11 @@ public class ViewController: UIViewController {
     var statsTextField = UITextView()
 
     // Defining the texts for the statsTextField
-    let afghanistanDefinition = "Afghan militias recruited thousands of child soldiers during the Afghan civil war over three decades. Many are still fighting now, for the Taliban. Some of those taken from Islamic religious schools are used as suicide bombers and gunmen.\n During the fighting between the army and ISIS, over 3,500 civilians died. A third of them are children."
+    let afghanistanDefinition = "Afghan militias recruited thousands of child soldiers during the Afghan civil war over three decades. Many are still fighting now, for the Taliban. Some of those taken from Islamic religious schools are used as suicide bombers and gunmen.\nDuring the fighting between the army and ISIS, over 3,500 civilians died. A third of them are children."
     let centralAfricanRepublicDefinition = "Between 2012 and 2015 as many as 10,000 children were used by armed groups in the nationwide armed conflict and as of 2016 children were still being used. Some are as young as eight. The recruitment of children for military purposes increased by approximately 50% during last year."
     let iranDefinition = "The state conscripts for the regular army at age 19 while accepting volunteers at age 16. During the Iran-Iraq War, the total number of all Iranian casualties is estimated by independent sources to be about 200,000–600,000. Half of them were civilians and about 3% were under the age of 14. Some critics wrote that children were sent to the front as waves of human shields."
     let syriaDefinition = "Despite a law that prohibits the use of child soldiers, in Syria there are no age verification procedures so, still today, there have been allegations of children being recruited to fight for the Syrian government against rebel forces in support and combatant roles.\nDuring last year, over 10.000 civilians died during war."
+    let defaultDefinition = "Children are easy targets for military recruitment due to their greater susceptibility to influence compared to adults. Some children are recruited by force while others choose to join up, often to escape poverty or because they expect military life to offer a rite of passage to maturity.\nBoth children soldiers and civilians are often the main victims of the war, hunger and poverty..."
 
     let cfURL = Bundle.main.url(forResource: "Arabolic", withExtension: "ttf")
     var font: UIFont?
@@ -107,7 +108,9 @@ public class ViewController: UIViewController {
         statsTextField.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
         CTFontManagerRegisterFontsForURL(cfURL! as CFURL, CTFontManagerScope.process, nil)
-        font = UIFont(name: "Arabolical", size:  14.0)
+        //#-end-hidden-code
+
+        font = UIFont(name: "Arabolical", size:  23.0)
 
         statsTextField.textColor = .white
         statsTextField.backgroundColor = .black
@@ -115,7 +118,9 @@ public class ViewController: UIViewController {
     }
 
     public override func viewDidLoad() {
+        //#-editable-code
         seeStats(nation: "Put your nation here")
+        //#-end-editable-code
     }
 
     func seeStats(nation: String) {
@@ -132,7 +137,7 @@ public class ViewController: UIViewController {
             statsTextField.text = syriaDefinition
             syriaImageView.image = UIImage(named: "Syria.png")
         } else {
-            statsTextField.text = "ciao"
+            statsTextField.text = defaultDefinition
         }
     }
 }

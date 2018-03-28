@@ -36,13 +36,19 @@ public class ViewController: UIViewController {
     var secondRowStack = UIStackView()
     var thirdRowStack = UIStackView()
 
+    var myView = UIView()
+
     override public func loadView() {
         super.loadView()
 
+
+        myView = UIView()
+        myView.backgroundColor = UIColor(hex: 0x737779)
         //Creating the view
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: 0x737779)
-        self.view = view
+//        let view = UIView()
+//        view.backgroundColor = UIColor(hex: 0x737779)
+//        self.view = view
+
 
         // The following is needed to assign the right image to each ImageView
 
@@ -117,10 +123,8 @@ public class ViewController: UIViewController {
         thirdRowStack.topAnchor.constraint(equalTo: secondRowStack.bottomAnchor).isActive = true
 
         // Correctly positioning the nuhImageView
-        //#-editable-code
         nuhImageView.frame = CGRect(x: thirdRowStack.frame.width - thirdRowStack.frame.width / 6 - self.nuhImageView.frame.width / 3, y: thirdRowStack.frame.height / 2, width: self.view.frame.width / 8, height: self.view.frame.height / 8)
         thirdRowStack.addSubview(nuhImageView)
-        //#-end-editable-code
 
         //Sequence of the animations
         UIView.animateKeyframes(withDuration: 15, delay: 1, animations: {
@@ -148,20 +152,35 @@ public class ViewController: UIViewController {
                 self.moveUp()
                 //#-end-editable-code
                 ////#-hidden-code
-                //self.view.alpha = 0
+                self.view.alpha = 0
             })
         }, completion: nil)
+
+        self.playSound()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateViewConstraints()
+        self.view = myView
+    }
+
+    func moveRight() {
+        self.nuhImageView.center.x = self.view.frame.width - self.view.frame.width / 3 + self.nuhImageView.frame.width / 2
     }
 
     func moveLeft() {
         self.nuhImageView.center.x = self.view.frame.width / 3 - self.nuhImageView.frame.width / 2
     }
 
+    func moveDown() {
+        self.nuhImageView.center.y += self.view.frame.height / 3 - self.nuhImageView.frame.height / 3
+    }
+
     func moveUp() {
         self.nuhImageView.center.y -= self.view.frame.height / 3 + self.nuhImageView.frame.height / 3
     }
 
-    //#-editable-code
     func turnLeft() {
         self.nuhImageView.transform = self.nuhImageView.transform.rotated(by: -1)
     }
@@ -169,11 +188,11 @@ public class ViewController: UIViewController {
     func turnUp() {
         self.nuhImageView.transform = self.nuhImageView.transform.rotated(by: 1)
     }
-    //#-end-editable-code
+
     var player: AVAudioPlayer?
 
     func playSound() {
-        guard let url = Bundle.main.url(forResource: "Gunshot sound", withExtension: "wav") else { return }
+        guard let url = Bundle.main.url(forResource: "War", withExtension: "wav") else { return }
 
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
